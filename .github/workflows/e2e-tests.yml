@@ -1,0 +1,202 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+        
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: '4yourrun/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./4yourrun
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      working-directory: ./4yourrun
+      run: npx playwright install --with-deps ${{ matrix.browser }}
+    
+    - name: Build application
+      working-directory: ./4yourrun
+      run: npm run build
+    
+    - name: Run Playwright tests
+      working-directory: ./4yourrun
+      run: npx playwright test --project=${{ matrix.browser }}
+      env:
+        CI: true
+    
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ matrix.browser }}
+        path: 4yourrun/playwright-report/
+        retention-days: 30
+
+  mobile-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: '4yourrun/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./4yourrun
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      working-directory: ./4yourrun
+      run: npx playwright install --with-deps chromium webkit
+    
+    - name: Build application
+      working-directory: ./4yourrun
+      run: npm run build
+    
+    - name: Run Mobile Cross-Browser tests
+      working-directory: ./4yourrun
+      run: npm run test:mobile
+      env:
+        CI: true
+    
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: mobile-test-report
+        path: 4yourrun/playwright-report/
+        retention-days: 30
+
+  accessibility-tests:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: '4yourrun/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./4yourrun
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      working-directory: ./4yourrun
+      run: npx playwright install --with-deps chromium
+    
+    - name: Build application
+      working-directory: ./4yourrun
+      run: npm run build
+    
+    - name: Run Accessibility tests
+      working-directory: ./4yourrun
+      run: npm run test:accessibility
+      env:
+        CI: true
+    
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: accessibility-report
+        path: 4yourrun/playwright-report/
+        retention-days: 30
+
+  performance-tests:
+    timeout-minutes: 45
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: '4yourrun/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./4yourrun
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      working-directory: ./4yourrun
+      run: npx playwright install --with-deps chromium
+    
+    - name: Build application
+      working-directory: ./4yourrun
+      run: npm run build
+    
+    - name: Run Performance tests
+      working-directory: ./4yourrun
+      run: npm run test:performance
+      env:
+        CI: true
+    
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: performance-report
+        path: 4yourrun/playwright-report/
+        retention-days: 30
+
+  integration-tests:
+    timeout-minutes: 45
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: '4yourrun/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./4yourrun
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      working-directory: ./4yourrun
+      run: npx playwright install --with-deps
+    
+    - name: Build application
+      working-directory: ./4yourrun
+      run: npm run build
+    
+    - name: Run Integration tests
+      working-directory: ./4yourrun
+      run: npm run test:integration
+      env:
+        CI: true
+    
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: integration-report
+        path: 4yourrun/playwright-report/
+        retention-days: 30
