@@ -37,10 +37,17 @@ npm install
 ```bash
 cp .env.example .env.local
 ```
-Add your Google Gemini API key to `.env.local`:
+
+Edit `.env.local` and add your Google Gemini API key:
+```bash
+GOOGLE_GEMINI_API_KEY=your_actual_api_key_here
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
-GOOGLE_GEMINI_API_KEY=your_api_key_here
-```
+
+**Google Gemini API Key 발급 방법:**
+1. [Google AI Studio](https://makersuite.google.com/app/apikey) 접속
+2. "Create API Key" 클릭
+3. 생성된 API 키를 복사하여 `.env.local`에 추가
 
 4. Run the development server
 ```bash
