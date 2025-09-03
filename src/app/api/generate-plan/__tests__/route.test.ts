@@ -3,23 +3,18 @@
  */
 
 // Mock environment variable
-process.env.GOOGLE_GENERATIVE_AI_API_KEY = 'test-api-key';
+process.env.GOOGLE_GEMINI_API_KEY = 'test-api-key';
 
 // Mock the Google Generative AI
+const mockGenerateContent = jest.fn();
 jest.mock('@google/generative-ai', () => ({
   GoogleGenerativeAI: jest.fn(() => ({
     getGenerativeModel: jest.fn(() => ({
-      generateContent: jest.fn()
+      generateContent: mockGenerateContent
     }))
   }))
 }));
 
-import { it } from 'zod/locales';
-import { it } from 'zod/locales';
-import { it } from 'zod/locales';
-import { it } from 'zod/locales';
-import { beforeEach } from 'node:test';
-import { describe } from 'node:test';
 import { POST } from '../route';
 import { NextRequest } from 'next/server';
 
@@ -40,15 +35,7 @@ const mockTrainingPlan = {
 };
 
 describe('API Route /api/generate-plan', () => {
-  let mockGenerateContent: jest.Mock;
-
   beforeEach(() => {
-    // Get the mock function
-    const { GoogleGenerativeAI } = require('@google/generative-ai');
-    const mockGenAI = new GoogleGenerativeAI();
-    const mockModel = mockGenAI.getGenerativeModel();
-    mockGenerateContent = mockModel.generateContent;
-    
     jest.clearAllMocks();
   });
 

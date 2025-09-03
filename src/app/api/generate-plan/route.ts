@@ -4,7 +4,7 @@ import { formDataSchema, MarathonInfo, RunningRecord } from '@/lib/validations';
 import { TrainingPlan } from '@/types';
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
 
 function generatePrompt(marathonInfo: MarathonInfo, runningHistory: RunningRecord[], hasRunningHistory: boolean): string {
   const { raceName, raceDate, distance, targetTime } = marathonInfo;
