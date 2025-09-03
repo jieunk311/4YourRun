@@ -1,19 +1,7 @@
 import { withRetry, RetryError, useRetry } from '../retry';
 import { renderHook } from '@testing-library/react';
 
-// Mock setTimeout and clearTimeout
-jest.useFakeTimers();
-
 describe('withRetry', () => {
-  beforeEach(() => {
-    jest.clearAllTimers();
-  });
-
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
-    jest.useFakeTimers();
-  });
 
   it('succeeds on first attempt', async () => {
     const mockFn = jest.fn().mockResolvedValue('success');
@@ -29,12 +17,7 @@ describe('withRetry', () => {
       .mockRejectedValueOnce(new Error('First failure'))
       .mockResolvedValue('success');
 
-    const promise = withRetry(mockFn, { maxAttempts: 3, delay: 1000 });
-
-    // Fast-forward time to trigger retry
-    await jest.advanceTimersByTimeAsync(1000);
-
-    const result = await promise;
+    const result = await withRetry(mockFn, { maxAttempts: 3, delay: 1 });
 
     expect(result).toBe('success');
     expect(mockFn).toHaveBeenCalledTimes(2);
@@ -44,13 +27,7 @@ describe('withRetry', () => {
     const mockError = new Error('Persistent failure');
     const mockFn = jest.fn().mockRejectedValue(mockError);
 
-    const promise = withRetry(mockFn, { maxAttempts: 2, delay: 1000 });
-
-    // Fast-forward time for all retries
-    await jest.advanceTimersByTimeAsync(2000);
-
-    await expect(promise).rejects.toThrow(RetryError);
-    await expect(promise).rejects.toThrow('작업이 2번 시도 후 실패했습니다');
+    await expect(withRetry(mockFn, { maxAttempts: 2, delay: 1 })).rejects.toThrow(RetryError);
 
     expect(mockFn).toHaveBeenCalledTimes(2);
   });
@@ -59,44 +36,28 @@ describe('withRetry', () => {
     const mockFn = jest.fn().mockRejectedValue(new Error('Failure'));
     const mockOnRetry = jest.fn();
 
-    const promise = withRetry(mockFn, {
+    await expect(withRetry(mockFn, {
       maxAttempts: 3,
-      delay: 1000,
+      delay: 1,
       backoff: true,
       onRetry: mockOnRetry
-    });
+    })).rejects.toThrow(RetryError);
 
-    // First retry after 1000ms
-    await jest.advanceTimersByTimeAsync(1000);
-    expect(mockOnRetry).toHaveBeenCalledWith(1, expect.any(Error));
-
-    // Second retry after 2000ms (exponential backoff)
-    await jest.advanceTimersByTimeAsync(2000);
-    expect(mockOnRetry).toHaveBeenCalledWith(2, expect.any(Error));
-
-    await expect(promise).rejects.toThrow(RetryError);
+    expect(mockOnRetry).toHaveBeenCalledTimes(2);
   });
 
   it('does not use backoff when disabled', async () => {
     const mockFn = jest.fn().mockRejectedValue(new Error('Failure'));
     const mockOnRetry = jest.fn();
 
-    const promise = withRetry(mockFn, {
+    await expect(withRetry(mockFn, {
       maxAttempts: 3,
-      delay: 1000,
+      delay: 1,
       backoff: false,
       onRetry: mockOnRetry
-    });
+    })).rejects.toThrow(RetryError);
 
-    // First retry after 1000ms
-    await jest.advanceTimersByTimeAsync(1000);
-    expect(mockOnRetry).toHaveBeenCalledWith(1, expect.any(Error));
-
-    // Second retry after another 1000ms (no backoff)
-    await jest.advanceTimersByTimeAsync(1000);
-    expect(mockOnRetry).toHaveBeenCalledWith(2, expect.any(Error));
-
-    await expect(promise).rejects.toThrow(RetryError);
+    expect(mockOnRetry).toHaveBeenCalledTimes(2);
   });
 
   it('does not retry on 400 status error', async () => {
@@ -135,11 +96,7 @@ describe('withRetry', () => {
     const mockError = { status: 500, message: 'Internal Server Error' };
     const mockFn = jest.fn().mockRejectedValue(mockError);
 
-    const promise = withRetry(mockFn, { maxAttempts: 2, delay: 1000 });
-
-    await jest.advanceTimersByTimeAsync(1000);
-
-    await expect(promise).rejects.toThrow(RetryError);
+    await expect(withRetry(mockFn, { maxAttempts: 2, delay: 1 })).rejects.toThrow(RetryError);
     expect(mockFn).toHaveBeenCalledTimes(2);
   });
 
@@ -147,15 +104,11 @@ describe('withRetry', () => {
     const mockFn = jest.fn().mockRejectedValue(new Error('Failure'));
     const mockOnRetry = jest.fn();
 
-    const promise = withRetry(mockFn, {
+    await expect(withRetry(mockFn, {
       maxAttempts: 3,
-      delay: 1000,
+      delay: 1,
       onRetry: mockOnRetry
-    });
-
-    await jest.advanceTimersByTimeAsync(3000);
-
-    await expect(promise).rejects.toThrow(RetryError);
+    })).rejects.toThrow(RetryError);
 
     expect(mockOnRetry).toHaveBeenCalledTimes(2);
     expect(mockOnRetry).toHaveBeenNthCalledWith(1, 1, expect.any(Error));

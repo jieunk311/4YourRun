@@ -1,25 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
 import { useSwipeGesture } from '../useSwipeGesture';
-import { expect } from '@playwright/test';
-import { it } from 'node:test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'node:test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'node:test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'node:test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'node:test';
-import { beforeEach } from 'node:test';
-import { describe } from 'node:test';
 
 // Mock touch events
 const createTouchEvent = (type: string, touches: { clientX: number; clientY: number }[]) => {

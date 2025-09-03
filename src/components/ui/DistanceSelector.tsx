@@ -27,6 +27,7 @@ export default function DistanceSelector({
 }: DistanceSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const buttonId = `distance-selector-${Math.random().toString(36).substr(2, 9)}`;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -64,13 +65,14 @@ export default function DistanceSelector({
   return (
     <div className={cn("space-y-2", className)} ref={containerRef}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor={buttonId} className="block text-sm font-medium text-gray-700">
           {label}
         </label>
       )}
       
       <div className="relative">
         <button
+          id={buttonId}
           type="button"
           onClick={handleButtonClick}
           disabled={disabled}

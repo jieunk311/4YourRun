@@ -24,8 +24,8 @@ describe('WeeklyTrainingCard', () => {
     expect(screen.getByText('3x Easy Run (5km each), 1x Long Run (10km)')).toBeInTheDocument();
   });
 
-  it('displays training objectives', () => {
-    render(<WeeklyTrainingCard trainingWeek={mockTrainingWeek} />);
+  it('displays training objectives when expanded', () => {
+    render(<WeeklyTrainingCard trainingWeek={mockTrainingWeek} isExpanded={true} />);
     
     expect(screen.getByText('Training Objectives')).toBeInTheDocument();
     expect(screen.getByText('Build aerobic base and establish running routine')).toBeInTheDocument();

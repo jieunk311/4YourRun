@@ -154,8 +154,8 @@ describe('TrainingPlanDisplay', () => {
     expect(children[1]).toContainElement(screen.getByTestId('training-summary'));
     // Weekly cards section should be third (after removing progress chart)
     expect(children[2]).toContainElement(screen.getByTestId('weekly-cards-section'));
-    // AI feedback should be last
-    expect(children[4]).toContainElement(screen.getByTestId('ai-feedback'));
+    // AI feedback should be last (index 3 since we removed progress chart)
+    expect(children[3]).toContainElement(screen.getByTestId('ai-feedback'));
   });
 
   it('formats target time correctly with zero padding', () => {

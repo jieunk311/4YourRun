@@ -23,6 +23,8 @@ jest.mock('../../../components/layout', () => ({
 
 jest.mock('../../../components/ui', () => ({
   LoadingAnimation: () => <div data-testid="loading-animation">Loading Animation</div>,
+  ErrorMessage: ({ children }: { children: React.ReactNode }) => <div data-testid="error-message">{children}</div>,
+  NetworkStatus: () => <div data-testid="network-status">Network Status</div>,
 }));
 
 const mockPush = jest.fn();

@@ -29,6 +29,7 @@ export default function DatePicker({
   const [isOpen, setIsOpen] = useState(false);
   const [displayValue, setDisplayValue] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputId = `date-picker-${Math.random().toString(36).substr(2, 9)}`;
 
   useEffect(() => {
     if (value) {
@@ -95,7 +96,7 @@ export default function DatePicker({
   return (
     <div className={cn("space-y-2", className)} ref={containerRef}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor={inputId} className="block text-sm font-medium text-gray-700">
           {label}
         </label>
       )}
@@ -103,6 +104,7 @@ export default function DatePicker({
       <div className="relative">
         {/* Mobile-first: Use native date input */}
         <input
+          id={inputId}
           type="date"
           value={value ? formatDateForInput(value) : ''}
           onChange={handleInputChange}

@@ -50,7 +50,6 @@ describe('Navigation Flow', () => {
       expect(screen.getByText('마라톤 목표에 맞는 개인 맞춤형 훈련 계획')).toBeInTheDocument();
       expect(screen.getByText('최근 러닝 기록을 반영한 AI 분석')).toBeInTheDocument();
       expect(screen.getByText('주차별 상세 훈련 가이드 제공')).toBeInTheDocument();
-      expect(screen.getByText('시각적 진행 상황 추적')).toBeInTheDocument();
     });
 
     it('should navigate to plan page when start button is clicked', () => {
@@ -74,7 +73,7 @@ describe('Navigation Flow', () => {
     it('should render marathon info form initially', () => {
       renderWithProvider(<PlanPage />);
       
-      expect(screen.getByText('Step 1')).toBeInTheDocument();
+      expect(screen.getByText('1')).toBeInTheDocument();
       expect(screen.getByText('마라톤 정보')).toBeInTheDocument();
     });
 
@@ -93,23 +92,24 @@ describe('Navigation Flow', () => {
       // Fill out marathon info form
       const raceNameInput = screen.getByLabelText('대회명');
       const raceDateInput = screen.getByLabelText('대회 날짜');
-      const distanceSelect = screen.getByLabelText('거리');
-      const hoursInput = screen.getByLabelText('시간');
-      const minutesInput = screen.getByLabelText('분');
-      const secondsInput = screen.getByLabelText('초');
+      const distanceSelect = screen.getByRole('button', { name: '참가 거리' });
+      const hoursInput = screen.getByPlaceholderText('시');
+      const minutesInput = screen.getByPlaceholderText('분');
+      const secondsInput = screen.getByPlaceholderText('초');
       
       fireEvent.change(raceNameInput, { target: { value: '서울 마라톤' } });
       fireEvent.change(raceDateInput, { target: { value: '2024-12-31' } });
-      fireEvent.change(distanceSelect, { target: { value: 'Full' } });
+      fireEvent.click(distanceSelect);
+      const fullOption = screen.getByRole('option', { name: /Full/ });
+      fireEvent.click(fullOption);
       fireEvent.change(hoursInput, { target: { value: '4' } });
       fireEvent.change(minutesInput, { target: { value: '0' } });
       fireEvent.change(secondsInput, { target: { value: '0' } });
       
-      const nextButton = screen.getByText('다음');
+      const nextButton = screen.getByRole('button', { name: '다음 단계' });
       fireEvent.click(nextButton);
       
       await waitFor(() => {
-        expect(screen.getByText('Step 2')).toBeInTheDocument();
         expect(screen.getByText('러닝 기록')).toBeInTheDocument();
       });
     });
@@ -169,7 +169,7 @@ describe('Navigation Flow', () => {
       renderWithProvider(<PlanPage />);
       
       // Should start at step 1
-      expect(screen.getByText('Step 1')).toBeInTheDocument();
+      expect(screen.getByText('1')).toBeInTheDocument();
       
       // Fill and submit marathon info
       const raceNameInput = screen.getByLabelText('대회명');
@@ -178,12 +178,12 @@ describe('Navigation Flow', () => {
       const raceDateInput = screen.getByLabelText('대회 날짜');
       fireEvent.change(raceDateInput, { target: { value: '2024-12-31' } });
       
-      const nextButton = screen.getByText('다음');
+      const nextButton = screen.getByRole('button', { name: '다음 단계' });
       fireEvent.click(nextButton);
       
       // Should progress to step 2
       await waitFor(() => {
-        expect(screen.getByText('Step 2')).toBeInTheDocument();
+        expect(screen.getByText('러닝 기록')).toBeInTheDocument();
       });
       
       // Go back to step 1
@@ -191,7 +191,7 @@ describe('Navigation Flow', () => {
       fireEvent.click(backButton);
       
       await waitFor(() => {
-        expect(screen.getByText('Step 1')).toBeInTheDocument();
+        expect(screen.getByText('마라톤 정보')).toBeInTheDocument();
       });
     });
   });

@@ -10,7 +10,9 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, error, helperText, className, ...props }, ref) => {
+  ({ label, error, helperText, className, id, ...props }, ref) => {
+    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+    
     const inputClasses = cn(
       "w-full h-12 px-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors",
       error ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "",
@@ -21,13 +23,14 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     return (
       <div className="space-y-2">
         {label && (
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor={inputId} className="block text-sm font-medium text-gray-700">
             {label}
           </label>
         )}
         
         <input
           ref={ref}
+          id={inputId}
           className={inputClasses}
           {...props}
         />

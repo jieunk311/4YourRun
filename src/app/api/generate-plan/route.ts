@@ -105,7 +105,7 @@ function parseAIResponse(response: string): TrainingPlan {
     }
     
     // Validate each week structure
-    parsed.weeks.forEach((week: any, index: number) => {
+    parsed.weeks.forEach((week: Record<string, unknown>, index: number) => {
       if (!week.week || !week.totalDistance || !week.trainingComposition || !week.objectives) {
         throw new Error(`Invalid week ${index + 1} structure`);
       }

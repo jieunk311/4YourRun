@@ -26,7 +26,7 @@ export default function LazySection({
 
   return (
     <div ref={targetRef} className={className}>
-      {isIntersecting ? children : (fallback || <div className="h-32 bg-gray-100 animate-pulse rounded"></div>)}
+      {isIntersecting ? children : (fallback || <div className="h-32 bg-gray-100 animate-pulse rounded" data-testid="lazy-section-placeholder"></div>)}
     </div>
   );
 }

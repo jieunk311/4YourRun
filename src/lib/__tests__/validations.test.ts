@@ -4,7 +4,6 @@ import {
   formDataSchema,
   validateMarathonInfo,
   validateRunningRecord,
-  validateFormData,
   MARATHON_DISTANCES
 } from '../validations';
 

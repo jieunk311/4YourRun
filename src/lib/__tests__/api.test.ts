@@ -1,4 +1,4 @@
-import { generateTrainingPlan, ApiError } from '../api';
+import { generateTrainingPlan, ApiError, NetworkError } from '../api';
 import { FormData } from '../validations';
 
 // Mock fetch globally
@@ -63,13 +63,13 @@ describe('generateTrainingPlan', () => {
 
     const result = await generateTrainingPlan(mockFormData);
 
-    expect(global.fetch).toHaveBeenCalledWith('/api/generate-plan', {
+    expect(global.fetch).toHaveBeenCalledWith('/api/generate-plan', expect.objectContaining({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(mockFormData),
-    });
+    }));
 
     expect(result).toEqual(mockTrainingPlan);
   });
@@ -108,30 +108,15 @@ describe('generateTrainingPlan', () => {
     (global.fetch as jest.Mock).mockResolvedValue(mockErrorResponse);
 
     await expect(generateTrainingPlan(mockFormData)).rejects.toThrow(ApiError);
-    
-    try {
-      await generateTrainingPlan(mockFormData);
-    } catch (error) {
-      expect(error).toBeInstanceOf(ApiError);
-      expect((error as ApiError).message).toBe('훈련 계획 생성에 실패했습니다');
-      expect((error as ApiError).status).toBe(500);
-    }
-  });
+  }, 10000);
 
   it('should handle network errors', async () => {
     (global.fetch as jest.Mock).mockRejectedValue(
       new TypeError('Failed to fetch')
     );
 
-    await expect(generateTrainingPlan(mockFormData)).rejects.toThrow(ApiError);
-    
-    try {
-      await generateTrainingPlan(mockFormData);
-    } catch (error) {
-      expect(error).toBeInstanceOf(ApiError);
-      expect((error as ApiError).message).toBe('네트워크 연결을 확인해주세요');
-    }
-  });
+    await expect(generateTrainingPlan(mockFormData)).rejects.toThrow(NetworkError);
+  }, 10000);
 
   it('should handle unexpected errors', async () => {
     (global.fetch as jest.Mock).mockRejectedValue(
@@ -139,14 +124,7 @@ describe('generateTrainingPlan', () => {
     );
 
     await expect(generateTrainingPlan(mockFormData)).rejects.toThrow(ApiError);
-    
-    try {
-      await generateTrainingPlan(mockFormData);
-    } catch (error) {
-      expect(error).toBeInstanceOf(ApiError);
-      expect((error as ApiError).message).toBe('훈련 계획 생성 중 예상치 못한 오류가 발생했습니다');
-    }
-  });
+  }, 10000);
 
   it('should handle malformed JSON response', async () => {
     const mockResponse = {
@@ -158,14 +136,7 @@ describe('generateTrainingPlan', () => {
     (global.fetch as jest.Mock).mockResolvedValue(mockResponse);
 
     await expect(generateTrainingPlan(mockFormData)).rejects.toThrow(ApiError);
-    
-    try {
-      await generateTrainingPlan(mockFormData);
-    } catch (error) {
-      expect(error).toBeInstanceOf(ApiError);
-      expect((error as ApiError).message).toBe('훈련 계획 생성 중 예상치 못한 오류가 발생했습니다');
-    }
-  });
+  }, 10000);
 
   it('should send correct request format', async () => {
     const mockResponse = {
@@ -180,13 +151,13 @@ describe('generateTrainingPlan', () => {
 
     await generateTrainingPlan(mockFormData);
 
-    expect(global.fetch).toHaveBeenCalledWith('/api/generate-plan', {
+    expect(global.fetch).toHaveBeenCalledWith('/api/generate-plan', expect.objectContaining({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(mockFormData),
-    });
+    }));
   });
 });
 

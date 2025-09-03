@@ -116,9 +116,6 @@ describe('PWAInstallPrompt', () => {
   it('should apply touch feedback props to buttons', () => {
     render(<PWAInstallPrompt />);
 
-    const installButton = screen.getByText('설치');
-    const dismissButton = screen.getByText('나중에');
-
     // Check that touch props are applied (we can't directly test the spread operator,
     // but we can verify the hooks are called)
     expect(mockUseTouchFeedback).toHaveBeenCalled();

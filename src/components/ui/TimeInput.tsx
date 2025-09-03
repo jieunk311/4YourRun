@@ -27,6 +27,7 @@ export default function TimeInput({
     minutes: value.minutes.toString(),
     seconds: value.seconds.toString()
   });
+  const fieldsetId = `time-input-${Math.random().toString(36).substr(2, 9)}`;
 
   useEffect(() => {
     setLocalValue({
@@ -70,9 +71,11 @@ export default function TimeInput({
   return (
     <div className={cn("space-y-2", className)}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
+        <fieldset>
+          <legend className="block text-sm font-medium text-gray-700 mb-2">
+            {label}
+          </legend>
+        </fieldset>
       )}
       
       <div className="flex items-center justify-center space-x-2">

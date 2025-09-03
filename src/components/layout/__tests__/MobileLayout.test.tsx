@@ -1,11 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import MobileLayout from '../MobileLayout';
-import { it } from 'zod/locales';
-import { it } from 'zod/locales';
-import { it } from 'zod/locales';
-import { it } from 'zod/locales';
-import { it } from 'zod/locales';
-import { describe } from 'node:test';
 
 describe('MobileLayout', () => {
   it('renders children correctly', () => {

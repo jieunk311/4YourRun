@@ -134,9 +134,8 @@ describe('ResultPage', () => {
     expect(screen.getByTestId('week-card-1')).toBeInTheDocument();
     expect(screen.getByTestId('week-card-2')).toBeInTheDocument();
 
-    // Check AI feedback
-    expect(screen.getByText('AI 추천사항 및 팁')).toBeInTheDocument();
-    expect(screen.getByText('Focus on consistency and gradual progression.')).toBeInTheDocument();
+    // Check lazy section placeholder is shown initially
+    expect(screen.getByTestId('lazy-section-placeholder')).toBeInTheDocument();
   });
 
   it('handles navigation buttons correctly', () => {

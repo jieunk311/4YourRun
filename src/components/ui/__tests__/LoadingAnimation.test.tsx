@@ -2,29 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { LoadingAnimation } from '../LoadingAnimation';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { describe } from 'node:test';
 
 describe('LoadingAnimation', () => {
   it('renders loading text in Korean', () => {

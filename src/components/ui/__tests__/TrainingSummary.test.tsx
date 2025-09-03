@@ -1,21 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import TrainingSummary from '../TrainingSummary';
 import { TrainingPlan } from '@/types';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { describe } from 'node:test';
 
 const mockTrainingPlan: TrainingPlan = {
   weeks: [],

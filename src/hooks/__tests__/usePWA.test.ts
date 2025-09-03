@@ -55,14 +55,14 @@ describe('usePWA', () => {
   });
 
   it('should detect installed PWA via iOS standalone', () => {
-    (window.navigator as any).standalone = true;
+    (window.navigator as Navigator & { standalone?: boolean }).standalone = true;
 
     const { result } = renderHook(() => usePWA());
 
     expect(result.current.isInstalled).toBe(true);
 
     // Reset
-    (window.navigator as any).standalone = false;
+    (window.navigator as Navigator & { standalone?: boolean }).standalone = false;
   });
 
   it('should handle beforeinstallprompt event', () => {
