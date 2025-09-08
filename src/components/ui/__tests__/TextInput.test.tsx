@@ -3,12 +3,12 @@ import TextInput from '../TextInput';
 
 describe('TextInput', () => {
   it('renders with correct initial value', () => {
-    render(<TextInput value="test value" />);
+    render(<TextInput value="test value" onChange={() => {}} />);
     expect(screen.getByDisplayValue('test value')).toBeInTheDocument();
   });
 
   it('renders with label', () => {
-    render(<TextInput label="이름" value="" />);
+    render(<TextInput label="이름" value="" onChange={() => {}} />);
     expect(screen.getByText('이름')).toBeInTheDocument();
   });
 
@@ -23,12 +23,12 @@ describe('TextInput', () => {
   });
 
   it('displays error message when provided', () => {
-    render(<TextInput value="" error="필수 입력 항목입니다" />);
+    render(<TextInput value="" error="필수 입력 항목입니다" onChange={() => {}} />);
     expect(screen.getByText('필수 입력 항목입니다')).toBeInTheDocument();
   });
 
   it('displays helper text when provided and no error', () => {
-    render(<TextInput value="" helperText="도움말 텍스트" />);
+    render(<TextInput value="" helperText="도움말 텍스트" onChange={() => {}} />);
     expect(screen.getByText('도움말 텍스트')).toBeInTheDocument();
   });
 
@@ -38,6 +38,7 @@ describe('TextInput', () => {
         value="" 
         error="오류 메시지" 
         helperText="도움말 텍스트" 
+        onChange={() => {}}
       />
     );
     expect(screen.getByText('오류 메시지')).toBeInTheDocument();
@@ -45,7 +46,7 @@ describe('TextInput', () => {
   });
 
   it('disables input when disabled prop is true', () => {
-    render(<TextInput value="" disabled />);
+    render(<TextInput value="" disabled onChange={() => {}} />);
     
     const input = screen.getByRole('textbox');
     expect(input).toBeDisabled();
@@ -53,12 +54,12 @@ describe('TextInput', () => {
 
   it('forwards ref correctly', () => {
     const ref = { current: null };
-    render(<TextInput ref={ref} value="" />);
+    render(<TextInput ref={ref} value="" onChange={() => {}} />);
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
   });
 
   it('passes through additional props', () => {
-    render(<TextInput value="" placeholder="입력하세요" maxLength={10} />);
+    render(<TextInput value="" placeholder="입력하세요" maxLength={10} onChange={() => {}} />);
     
     const input = screen.getByRole('textbox');
     expect(input).toHaveAttribute('placeholder', '입력하세요');
@@ -66,14 +67,14 @@ describe('TextInput', () => {
   });
 
   it('applies error styles when error is provided', () => {
-    render(<TextInput value="" error="오류" />);
+    render(<TextInput value="" error="오류" onChange={() => {}} />);
     
     const input = screen.getByRole('textbox');
     expect(input).toHaveClass('border-red-500');
   });
 
   it('applies disabled styles when disabled', () => {
-    render(<TextInput value="" disabled />);
+    render(<TextInput value="" disabled onChange={() => {}} />);
     
     const input = screen.getByRole('textbox');
     expect(input).toHaveClass('bg-gray-100', 'text-gray-500');

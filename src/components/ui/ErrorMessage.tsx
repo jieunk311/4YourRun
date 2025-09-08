@@ -135,11 +135,11 @@ export function getErrorType(error: unknown): ErrorType {
     return 'validation';
   }
   
-  if (status >= 500) {
+  if (status && status >= 500) {
     return 'server';
   }
   
-  if (status >= 400) {
+  if (status && status >= 400) {
     return 'api';
   }
   

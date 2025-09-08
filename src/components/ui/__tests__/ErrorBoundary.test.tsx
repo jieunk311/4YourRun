@@ -2,27 +2,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { expect } from '@playwright/test';
-import { it } from 'zod/locales';
-import { afterEach } from 'node:test';
-import { beforeEach } from 'node:test';
-import { describe } from 'node:test';
 
 // Mock component that throws an error
 const ThrowError = ({ shouldThrow }: { shouldThrow: boolean }) => {
@@ -64,7 +43,7 @@ describe('ErrorBoundary', () => {
   });
 
   it('shows retry button and handles retry', () => {
-    const { rerender } = render(
+    render(
       <ErrorBoundary>
         <ThrowError shouldThrow={true} />
       </ErrorBoundary>

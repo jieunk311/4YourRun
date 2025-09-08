@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
     }
     
     if (body.runningHistory && Array.isArray(body.runningHistory)) {
-      body.runningHistory.forEach((record: any) => {
+      body.runningHistory.forEach((record: RunningRecord & { recordDate: string | Date }) => {
         if (record.recordDate && typeof record.recordDate === 'string') {
           record.recordDate = new Date(record.recordDate);
         }

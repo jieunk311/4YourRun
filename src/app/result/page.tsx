@@ -16,7 +16,7 @@ export default function ResultPage() {
 
   useEffect(() => {
     setCurrentStep('result');
-  }, []); // Only set step on mount
+  }, [setCurrentStep]); // Include setCurrentStep in dependencies
 
   useEffect(() => {
     // If no training plan data, redirect to home

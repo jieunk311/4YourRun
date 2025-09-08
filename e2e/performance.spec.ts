@@ -143,7 +143,7 @@ test.describe('Performance Tests', () => {
   });
 
   test('should have efficient JavaScript bundle size', async ({ page }) => {
-    const responses: any[] = [];
+    const responses: Array<{ url: string; size: string | undefined }> = [];
     page.on('response', response => {
       if (response.url().includes('.js')) {
         responses.push({

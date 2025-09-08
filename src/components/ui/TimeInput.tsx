@@ -27,7 +27,7 @@ export default function TimeInput({
     minutes: value.minutes.toString(),
     seconds: value.seconds.toString()
   });
-  const fieldsetId = `time-input-${Math.random().toString(36).substr(2, 9)}`;
+
 
   useEffect(() => {
     setLocalValue({

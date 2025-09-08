@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppProvider } from "@/contexts/AppContext";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -19,8 +19,6 @@ export const metadata: Metadata = {
   title: "4YourRun - AI 마라톤 훈련 플래너",
   description: "AI 기반 개인 맞춤형 마라톤 훈련 계획을 생성하는 모바일 최적화 웹 애플리케이션",
   keywords: "마라톤, 러닝, 훈련, AI, 개인맞춤, 운동계획",
-  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
-  themeColor: "#2563eb",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -36,6 +34,13 @@ export const metadata: Metadata = {
       { url: "/icons/icon-152x152.png", sizes: "152x152", type: "image/png" }
     ]
   }
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#2563eb',
 };
 
 export default function RootLayout({

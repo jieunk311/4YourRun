@@ -20,24 +20,18 @@ export default function DatePicker({
   onChange,
   label,
   error,
-  placeholder = '날짜를 선택하세요',
+
   disabled = false,
   className = '',
   minDate,
   maxDate
 }: DatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [displayValue, setDisplayValue] = useState('');
+
   const containerRef = useRef<HTMLDivElement>(null);
   const inputId = `date-picker-${Math.random().toString(36).substr(2, 9)}`;
 
-  useEffect(() => {
-    if (value) {
-      setDisplayValue(formatDateForDisplay(value));
-    } else {
-      setDisplayValue('');
-    }
-  }, [value]);
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -50,13 +44,7 @@ export default function DatePicker({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const formatDateForDisplay = (date: Date): string => {
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
+
 
   const formatDateForInput = (date: Date): string => {
     const year = date.getFullYear();

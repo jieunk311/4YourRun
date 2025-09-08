@@ -262,6 +262,7 @@ test.describe('Integration Tests - Complete User Journeys', () => {
     
     // Note: This test assumes form data persistence is implemented
     // If not implemented, this test documents the expected behavior
+    console.log('Form data preserved:', { raceName, distance });
   });
 
   test('should handle browser back/forward navigation correctly', async ({ page }) => {

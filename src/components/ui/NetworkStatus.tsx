@@ -34,7 +34,8 @@ export default function NetworkStatus({ onRetry }: NetworkStatusProps) {
     };
   }, []);
 
-  if (!showOfflineMessage) {
+  // Only show when offline
+  if (isOnline || !showOfflineMessage) {
     return null;
   }
 

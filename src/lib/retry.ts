@@ -27,12 +27,13 @@ export async function withRetry<T>(
     onRetry
   } = options;
 
-  let lastError: Error;
+  let lastError: Error | undefined;
   
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await fn();
-    } catch (error) {
+    } catch (caughtError) {
+      const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
       lastError = error;
       
       if (attempt === maxAttempts) {
@@ -44,8 +45,8 @@ export async function withRetry<T>(
       }
       
       // Don't retry on certain errors
-      if (shouldNotRetry(error)) {
-        throw error;
+      if (shouldNotRetry(caughtError)) {
+        throw caughtError;
       }
       
       if (onRetry) {
@@ -61,22 +62,26 @@ export async function withRetry<T>(
   throw lastError;
 }
 
-function shouldNotRetry(error: { status?: number }): boolean {
-  // Don't retry on validation errors (400)
-  if (error.status === 400) {
-    return true;
+function shouldNotRetry(error: unknown): boolean {
+  if (typeof error === 'object' && error !== null && 'status' in error) {
+    const status = (error as { status: unknown }).status;
+    if (typeof status === 'number') {
+      // Don't retry on validation errors (400)
+      if (status === 400) {
+        return true;
+      }
+      
+      // Don't retry on authentication errors (401, 403)
+      if (status === 401 || status === 403) {
+        return true;
+      }
+      
+      // Don't retry on not found errors (404)
+      if (status === 404) {
+        return true;
+      }
+    }
   }
-  
-  // Don't retry on authentication errors (401, 403)
-  if (error.status === 401 || error.status === 403) {
-    return true;
-  }
-  
-  // Don't retry on not found errors (404)
-  if (error.status === 404) {
-    return true;
-  }
-  
   return false;
 }
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = '4yourrun-v1';
+// Cache names for different types of content
 const STATIC_CACHE = '4yourrun-static-v1';
 const DYNAMIC_CACHE = '4yourrun-dynamic-v1';
 

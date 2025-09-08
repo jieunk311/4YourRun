@@ -1,11 +1,48 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RunningHistoryForm from '../RunningHistoryForm';
 import { RunningRecord } from '../../../lib/validations';
 
+// Type definitions for mock components
+interface MockDatePickerProps {
+  label: string;
+  value: Date | null;
+  onChange: (date: Date | null) => void;
+  error?: string;
+}
+
+interface MockNumberInputProps {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+  error?: string;
+  unit?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  placeholder?: string;
+}
+
+interface MockTimeInputProps {
+  label: string;
+  value: { hours: number; minutes: number; seconds: number };
+  onChange: (time: { hours: number; minutes: number; seconds: number }) => void;
+  error?: string;
+}
+
+interface MockNavigationButtonsProps {
+  onNext: () => void;
+  onBack: () => void;
+  nextLabel: string;
+  backLabel: string;
+  nextDisabled: boolean;
+  showBack: boolean;
+  loading: boolean;
+}
+
 // Mock the individual UI components
 jest.mock('../../ui/DatePicker', () => {
-  return function MockDatePicker({ label, value, onChange, error, maxDate, minDate }: any) {
+  return function MockDatePicker({ label, value, onChange, error }: MockDatePickerProps) {
     return (
       <div>
         <label>{label}</label>
@@ -22,7 +59,7 @@ jest.mock('../../ui/DatePicker', () => {
 });
 
 jest.mock('../../ui/NumberInput', () => {
-  return function MockNumberInput({ label, value, onChange, error, unit, min, max, step, placeholder }: any) {
+  return function MockNumberInput({ label, value, onChange, error, unit, min, max, step, placeholder }: MockNumberInputProps) {
     return (
       <div>
         <label>{label}</label>
@@ -44,7 +81,7 @@ jest.mock('../../ui/NumberInput', () => {
 });
 
 jest.mock('../../ui/TimeInput', () => {
-  return function MockTimeInput({ label, value, onChange, error }: any) {
+  return function MockTimeInput({ label, value, onChange, error }: MockTimeInputProps) {
     return (
       <div>
         <label>{label}</label>
@@ -76,7 +113,7 @@ jest.mock('../../ui/TimeInput', () => {
 });
 
 jest.mock('../../ui/NavigationButtons', () => {
-  return function MockNavigationButtons({ onNext, onBack, nextLabel, backLabel, nextDisabled, showBack, loading }: any) {
+  return function MockNavigationButtons({ onNext, onBack, nextLabel, backLabel, nextDisabled, showBack, loading }: MockNavigationButtonsProps) {
     const handleNext = () => {
       if (!nextDisabled && !loading) {
         onNext();

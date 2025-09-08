@@ -20,9 +20,9 @@ export default function PlanPage() {
   const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
-    // Initialize the current step when component mounts
+    // Initialize the current step when component mounts or planStep changes
     setCurrentStep(planStep === 'marathon-info' ? 'marathon-info' : 'running-history');
-  }, []); // Only run on mount
+  }, [planStep, setCurrentStep]);
 
   const handleMarathonInfoSubmit = (data: MarathonInfo) => {
     setMarathonInfo(data);
@@ -74,7 +74,11 @@ export default function PlanPage() {
         console.error('Failed to generate training plan:', error);
         
         // Set error state to show error message
-        setError(error);
+        if (error instanceof Error) {
+          setError(error);
+        } else {
+          setError(new Error('An unknown error occurred during plan generation.'));
+        }
         
         // Navigate back to plan page to show error
         setCurrentStep('running-history');
@@ -117,7 +121,11 @@ export default function PlanPage() {
         
       } catch (error) {
         console.error('Retry failed:', error);
-        setError(error);
+        if (error instanceof Error) {
+          setError(error);
+        } else {
+          setError(new Error('An unknown error occurred during retry.'));
+        }
         setCurrentStep('running-history');
         router.push('/plan');
       }

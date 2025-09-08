@@ -89,7 +89,7 @@ test.describe('Mobile Chrome Tests', () => {
       await page.goto('/');
       
       // Test portrait mode (default)
-      let viewport = page.viewportSize();
+      const viewport = page.viewportSize();
       expect(viewport?.height).toBeGreaterThan(viewport?.width || 0);
       
       // Rotate to landscape (simulate orientation change)

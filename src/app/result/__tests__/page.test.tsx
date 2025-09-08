@@ -24,12 +24,12 @@ interface TrainingPlan {
 jest.mock('next/navigation');
 jest.mock('../../../contexts/AppContext');
 jest.mock('../../../components/ui/TrainingSummary', () => {
-  return function MockTrainingSummary({ trainingPlan }: { trainingPlan: any }) {
+  return function MockTrainingSummary({ trainingPlan }: { trainingPlan: TrainingPlan }) {
     return <div data-testid="training-summary">Training Summary: {trainingPlan.totalWeeks} weeks</div>;
   };
 });
 jest.mock('../../../components/ui/WeeklyTrainingCard', () => {
-  return function MockWeeklyTrainingCard({ trainingWeek }: { trainingWeek: any }) {
+  return function MockWeeklyTrainingCard({ trainingWeek }: { trainingWeek: TrainingWeek }) {
     return <div data-testid={`week-card-${trainingWeek.week}`}>Week {trainingWeek.week}</div>;
   };
 });

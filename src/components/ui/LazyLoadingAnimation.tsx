@@ -3,7 +3,7 @@
 import { lazy, Suspense } from 'react';
 
 // Lazy load the LoadingAnimation component
-const LoadingAnimation = lazy(() => import('./LoadingAnimation'));
+const LoadingAnimation = lazy(() => import('./LoadingAnimation').then(module => ({ default: module.LoadingAnimation })));
 
 function LoadingSkeleton() {
   return (

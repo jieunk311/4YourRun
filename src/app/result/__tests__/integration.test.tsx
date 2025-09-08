@@ -14,7 +14,7 @@ jest.mock('../../../components/ui/TrainingSummary', () => {
 });
 // ProgressChart removed - no longer needed
 jest.mock('../../../components/ui/WeeklyTrainingCard', () => {
-  return function MockWeeklyTrainingCard({ trainingWeek }: { trainingWeek: any }) {
+  return function MockWeeklyTrainingCard({ trainingWeek }: { trainingWeek: { week: number } }) {
     return <div data-testid={`weekly-card-${trainingWeek.week}`}>Week {trainingWeek.week}</div>;
   };
 });
